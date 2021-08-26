@@ -1,0 +1,17 @@
+.synonimListItem {
+    background-color:  #26611E;
+    border-radius: 14px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.25px;
+    color: #FFFFFF;
+    display: inline;
+    padding:6px 10px ;
+    margin-left: 5px;
+}

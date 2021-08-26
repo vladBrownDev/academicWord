@@ -1,24 +1,97 @@
-import logo from './logo.svg';
 import './App.css';
+
+import logo from "./images/logo.png"
+import switchBut from "./images/switch.png"
+
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import SearchIcon from '@material-ui/icons/Search';
+import CloseIcon from '@material-ui/icons/Close';
+
+import Synonim from './Synonim';
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <>
+      <header>
+        <div id="company">
+          <img src={logo} alt="" id="logo"/>
+          <div id="companyName">Academic Words</div>
+        </div>
+        
       </header>
-    </div>
+      <main>
+        <section id="inputSection">
+          <form>
+            <TextField className="findWordInp"
+              id="outlined-basic"
+              placeholder="Enter your word"
+              variant="outlined"
+              InputProps={{
+                endAdornment: <InputAdornment position="end"><CloseIcon></CloseIcon></InputAdornment>,
+              }} />
+              <FormControl variant="outlined" >
+                  <Select
+                    value="en"
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    className="dropdown"
+                  >
+                    
+                    <MenuItem value="en">Англійська</MenuItem>
+                    <MenuItem value="ua">Українська</MenuItem>
+                    
+                  </Select>
+                  
+              </FormControl>  
+
+              <img alt="switch" src={switchBut} id="switchImg"/>
+
+              <FormControl variant="outlined" >
+                  <Select
+                    value="ua"
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    className="dropdown"
+                  >
+                    
+                    <MenuItem value="en">Англійська</MenuItem>
+                    <MenuItem value="ua">Українська</MenuItem>
+                    
+                  </Select>
+                  
+              </FormControl>  
+
+              <Button variant="contained" disableElevation className="searchButton">
+                  <SearchIcon className="search"/>
+              </Button>
+          </form>
+
+          <div id="synonims">
+            <div id="synonimLabel">
+              Синонимы:
+            </div>
+            <div id="synonimsList">
+              <Synonim text="Sobaka"/>
+              <Synonim text="Pesik"/>
+              <Synonim text="Dog"/>
+            </div>
+          </div>
+        </section>
+
+        <section id="secSection">
+
+        </section>
+      </main>
+    </>
   );
 }
 

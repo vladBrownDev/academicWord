@@ -1,38 +1,141 @@
-.App {
-  text-align: center;
+@font-face {
+  font-family: 'Helvetica Now Display';
+  src: local('Helvetica Now Display Light'), local('Helvetica-Now-Display-Light'),
+      url('./fonts/HelveticaNowDisplay-Light.woff2') format('woff2'),
+      url('./fonts/HelveticaNowDisplay-Light.woff') format('woff'),
+      url('./fonts/HelveticaNowDisplay-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+html {
+  box-sizing: border-box;
+}
+*,*::after,*::before {
+  box-sizing: inherit; 
+}
+body {
+  background-color: #E5E5E5;
+  margin: 0;
+  padding: 0;
+}
+header {
+  background-color: white;
+  height: 7.8vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 2.5vw;
+}
+#company {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 24vh;
+}
+#logo {
+  width: 4.7vh;
+  height: 4.7vh;
+}
+#companyName {
+  display: inline;
+  font-family: Helvetica Now Display;
+  font-style: normal;
+  font-weight: 700;
+  font-size:2.35vh;
+
+  letter-spacing: 0.4px;
+
+  color: #26611E;
+}
+main {
+  padding-top:6.27vh;
+  padding-left: 10.41vw;
+  padding-right: 10.41vw;
+  padding-bottom: 10.2vh;
+  width: 100vw;
+  height: 76vh;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#inputSection {
+  height: 19.6vh;
+  border-radius: 8px;
+  background-color: white;
+  padding: 1.66vw;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+}
+
+#inputSection form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 5.49vh;
 }
 
-.App-link {
-  color: #61dafb;
+.PrivateNotchedOutline-legendLabelled-3 span {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  color: rgba(0, 0, 0, 0.87);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+form .findWordInp {
+  width: 37.5vw;
+  border-radius: 4px;
+}
+
+.search {
+  color:white;
+}
+.searchButton {
+  background-color: #26611E !important;
+  height: 100%;
+  width: 7.9vw;
+}
+.dropdown {
+  width:12.5vw;
+  height: 5.49vh;
+}
+#switchImg {
+  width: 2.08vw;
+  height: 2.08vw;
+}
+
+#synonimLabel {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.25px;
+  color: #212121;
+  display: inline;
+}
+#synonimsList {
+  display: inline;
+  margin-left: 10px;
+}
+.synonims {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#secSection {
+  width: 100%;
+  height: 50vh;
+  background-color: white;
+  border-radius: 8px;
+  margin-top:6.27vh;
 }
