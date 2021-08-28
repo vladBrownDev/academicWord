@@ -2,7 +2,7 @@ import React from "react"
 
 import "./Synonim.css"
 
-export default function Synonim(props) {
+export default function Translates(props) {
     
     
     

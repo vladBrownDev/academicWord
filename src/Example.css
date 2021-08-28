@@ -1,0 +1,19 @@
+.exampleItem {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+
+    color: #000000;
+    height: 3.3vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
+}

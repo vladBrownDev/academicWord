@@ -12,7 +12,8 @@ import Select from '@material-ui/core/Select';
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
 
-import Synonim from './Synonim';
+import Translation from './Translation';
+import Example from "./Example"
 
 import axios from "axios"
 import React ,{Component} from 'react';
@@ -35,10 +36,11 @@ class App extends Component {
       text: String(document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value)
     })
     .then((response) => {
+      console.log(response)
       let translateList = []
-      response.data.contextResult.map((item) => {
-        translateList.push(<Synonim text={item.text}/> )
-        return item
+      response.data.contextResult.forEach((item) => {
+        translateList.push(<Translation text={item.text}/> )
+        
       })
       console.log(translateList)
       ReactDOM.render (translateList, document.querySelector("#synonimsList"))
@@ -128,16 +130,35 @@ class App extends Component {
   
             <div id="synonims">
               
-              <div id="synonimsList">
-                <Synonim text="Sobaka"/>
-                <Synonim text="Pesik"/>
-                <Synonim text="Dog"/>
-              </div>
+              
             </div>
           </section>
   
           <section id="secSection">
-  
+                <div id="translation">
+                  <div id="translLabel">
+                    Переводы:
+                  </div>
+                  <div id="synonimsList">
+                    <Translation text="Sobaka"/>
+                    <Translation text="Pesik"/>
+                    <Translation text="Dog"/>
+                  </div>
+                </div>
+
+                <div id="synonyms">
+                  <div id="translLabel">
+                      Синонимы:
+                  </div>
+                </div>
+          </section>
+          <section id="examples">
+            <div id="translLabel">
+              Перевод в тексте
+            </div>
+            <div id="exampleList">
+                <Example lText ="sssssss" rText="sasadsa"/>
+            </div>
           </section>
         </main>
       </>
