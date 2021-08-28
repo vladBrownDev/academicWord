@@ -14,85 +14,135 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import Synonim from './Synonim';
 
+import axios from "axios"
+import React ,{Component} from 'react';
+import ReactDOM from "react-dom"
 
 
-function App() {
-  return (
-    <>
-      <header>
-        <div id="company">
-          <img src={logo} alt="" id="logo"/>
-          <div id="companyName">Academic Words</div>
-        </div>
-        
-      </header>
-      <main>
-        <section id="inputSection">
-          <form>
-            <TextField className="findWordInp"
-              id="outlined-basic"
-              placeholder="Enter your word"
-              variant="outlined"
-              InputProps={{
-                endAdornment: <InputAdornment position="end"><CloseIcon></CloseIcon></InputAdornment>,
-              }} />
-              <FormControl variant="outlined" >
-                  <Select
-                    value="en"
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    inputProps={{ 'aria-label': 'Without label' }}
-                    className="dropdown"
-                  >
-                    
-                    <MenuItem value="en">Англійська</MenuItem>
-                    <MenuItem value="ua">Українська</MenuItem>
-                    
-                  </Select>
-                  
-              </FormControl>  
 
-              <img alt="switch" src={switchBut} id="switchImg"/>
+class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      fChosenLang : "en",
+      secChosenLang :"ru"
+    }
+  }
+  getWords = () => {
+    axios.post("https://academic-words-api.azurewebsites.net/api/word/info", {
+      from: this.state.fChosenLang,
+      to: this.state.secChosenLang,
+      text: String(document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value)
+    })
+    .then((response) => {
+      let translateList = []
+      response.data.contextResult.map((item) => {
+        translateList.push(<Synonim text={item.text}/> )
+        return item
+      })
+      console.log(translateList)
+      ReactDOM.render (translateList, document.querySelector("#synonimsList"))
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+  firstDDSent = (e) => {
+    this.setState(() => {
+      return ({
+        fChosenLang :e.target.value
+      })
+    })
+    
+  }
+  secDDSent = (e) => {
+    this.setState(() => {
+      return ({
+        secChosenLang :e.target.value
+      })
+    })
+  }
 
-              <FormControl variant="outlined" >
-                  <Select
-                    value="ua"
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    inputProps={{ 'aria-label': 'Without label' }}
-                    className="dropdown"
-                  >
-                    
-                    <MenuItem value="en">Англійська</MenuItem>
-                    <MenuItem value="ua">Українська</MenuItem>
-                    
-                  </Select>
-                  
-              </FormControl>  
-
-              <Button variant="contained" disableElevation className="searchButton">
-                  <SearchIcon className="search"/>
-              </Button>
-          </form>
-
-          <div id="synonims">
-            <div id="synonimLabel">
-              Синонимы:
-            </div>
-            <div id="synonimsList">
-              <Synonim text="Sobaka"/>
-              <Synonim text="Pesik"/>
-              <Synonim text="Dog"/>
-            </div>
+  render() {
+    return (
+      <>
+        <header>
+          <div id="company">
+            <img src={logo} alt="" id="logo"/>
+            <div id="companyName">Academic Words</div>
           </div>
-        </section>
-
-        <section id="secSection">
-
-        </section>
-      </main>
-    </>
-  );
+          
+        </header>
+        <main>
+          <section id="inputSection">
+            <form>
+              <TextField className="findWordInp"
+                id="outlined-basic"
+                placeholder="Enter your word"
+                variant="outlined"
+                InputProps={{
+                  endAdornment: <InputAdornment position="end"><CloseIcon></CloseIcon></InputAdornment>,
+                }} 
+                /> 
+                <FormControl variant="outlined" >
+                    <Select
+                      defaultValue={this.state.fChosenLang}
+                      labelId="demo-simple-select-outlined-label"
+                      id="demo-simple-select-outlined"
+                      inputProps={{ 'aria-label': 'Without label' }}
+                      className="dropdown firstDD"
+                      onChange={this.firstDDSent}
+                    >
+                      
+                      <MenuItem value="en">Английский</MenuItem>
+                      <MenuItem value="ru">Русский</MenuItem>
+                      
+                    </Select>
+                    
+                </FormControl>  
+  
+                <img alt="switch" src={switchBut} id="switchImg"/>
+  
+                <FormControl variant="outlined" >
+                    <Select
+                      defaultValue={this.state.secChosenLang}
+                      labelId="demo-simple-select-outlined-label"
+                      id="demo-simple-select-outlined"
+                      inputProps={{ 'aria-label': 'Without label' }}
+                      className="dropdown secDD"
+                      onChange={this.secDDSent}
+                      
+                    >
+                      
+                      <MenuItem value="en">Английский</MenuItem>
+                      <MenuItem value="ru">Русский</MenuItem>
+                      
+                    </Select>
+                    
+                </FormControl>  
+  
+                <Button onClick={this.getWords} variant="contained" disableElevation id="searchButton">
+                    <SearchIcon className="search"/>
+                </Button>
+            </form>
+  
+            <div id="synonims">
+              
+              <div id="synonimsList">
+                <Synonim text="Sobaka"/>
+                <Synonim text="Pesik"/>
+                <Synonim text="Dog"/>
+              </div>
+            </div>
+          </section>
+  
+          <section id="secSection">
+  
+          </section>
+        </main>
+      </>
+    );
+  }
 }
 
 export default App;

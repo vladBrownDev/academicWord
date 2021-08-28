@@ -95,7 +95,7 @@ form .findWordInp {
 .search {
   color:white;
 }
-.searchButton {
+#searchButton {
   background-color: #26611E !important;
   height: 100%;
   width: 7.9vw;
