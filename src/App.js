@@ -56,7 +56,9 @@ class App extends Component {
       let exampleList =[]
       for (let i = 0; i<exLength; i++) {
         exampleList.push(<Example lText = {response.data.lookupExamples.fromLanguageExamples[i]}
-        rText = {response.data.lookupExamples.toLanguageExamples[i]}/>)
+        rText = {response.data.lookupExamples.toLanguageExamples[i]}
+        translations={response.data.synonyms.map(e => e.toLowerCase())}
+        synonyms={response.data.contextResult.map(c => c.text.toLowerCase())}/>)
       }
       ReactDOM.render (exampleList, document.querySelector("#exampleList"))
 
