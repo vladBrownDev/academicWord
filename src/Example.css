@@ -2,7 +2,7 @@
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 16px;
+    font-size: 0.83vw;
     line-height: 19px;
     /* identical to box height */
 
@@ -16,4 +16,10 @@
     flex-direction: row;
     justify-content: space-between;
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
+}
+.exampleItem:hover {
+    background-color: rgba(196, 196, 196,0.2);
+}
+.leftExample, .rightExample {
+    width: 50%;
 }

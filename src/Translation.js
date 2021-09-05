@@ -1,6 +1,6 @@
 import React from "react"
 
-import "./Synonim.css"
+import "./Translation.css"
 
 export default function Translates(props) {
     
@@ -8,7 +8,7 @@ export default function Translates(props) {
     
         return(
             <>
-            <span className="synonimListItem">
+            <span className="translationListItem">
                 {props.text}
             </span>
         </>
