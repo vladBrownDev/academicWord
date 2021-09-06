@@ -42,31 +42,36 @@ class App extends Component {
     })
     
     .then((response) => {
-      
-      console.log(response)
-      let translateList = []
-      response.data.contextResult.forEach((item) => {
-        translateList.push(<Translation text={item.text}/> )
-        
-      })
-      console.log(translateList)
-      ReactDOM.render (translateList, document.querySelector("#translationList"))
-      const exLength = response.data.lookupExamples.fromLanguageExamples.length
-
-      let exampleList =[]
-      for (let i = 0; i<exLength; i++) {
-        exampleList.push(<Example lText = {response.data.lookupExamples.fromLanguageExamples[i]}
-        rText = {response.data.lookupExamples.toLanguageExamples[i]}
-        translations={response.data.synonyms.map(e => e.toLowerCase())}
-        synonyms={response.data.contextResult.map(c => c.text.toLowerCase())}/>)
+      if(String(document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value).includes(" ")) {
+        console.log(response)
+        ReactDOM.render(<Translation text = {response.data.translationResult}/>, document.querySelector("#translationList"))
       }
-      ReactDOM.render (exampleList, document.querySelector("#exampleList"))
+      else {
+        let translateList = []
+        response.data.contextResult.forEach((item) => {
+          translateList.push(<Translation text={item.text}/> )
+          
+        })
+        console.log(translateList)
+        ReactDOM.render (translateList, document.querySelector("#translationList"))
+        const exLength = response.data.lookupExamples.fromLanguageExamples.length
 
-      let synonymList =[]
-      response.data.synonyms.forEach (item => {
-        synonymList.push (<span className="synonymListItem">{item}</span>)
-      }) 
-      ReactDOM.render(synonymList,document.querySelector("#synonymList"))
+        let exampleList =[]
+        for (let i = 0; i<exLength; i++) {
+          exampleList.push(<Example lText = {response.data.lookupExamples.fromLanguageExamples[i]}
+          rText = {response.data.lookupExamples.toLanguageExamples[i]}
+          translations={response.data.synonyms.map(e => e.toLowerCase())}
+          synonyms={response.data.contextResult.map(c => c.text.toLowerCase())}/>)
+        }
+        ReactDOM.render (exampleList, document.querySelector("#exampleList"))
+
+        let synonymList =[]
+        response.data.synonyms.forEach (item => {
+          synonymList.push (<span className="synonymListItem">{item}</span>)
+        }) 
+        ReactDOM.render(synonymList,document.querySelector("#synonymList"))
+      }
+      
     })
     .catch(function (error) {
       console.log(error);
