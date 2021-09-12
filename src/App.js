@@ -47,6 +47,11 @@ class App extends Component {
       document.querySelector("#secSection").className = "shown"
       document.querySelector("#examples").className = "shown"
     }
+    const showSentence = () => {
+      document.querySelector("#secSection").className = "shown"
+      document.querySelector("#synonyms").className = "hidden"
+      document.querySelector("#translation").className = "shown wide"
+    }
     const signleWord = {
       translationResult: null,
       contextResult: [
@@ -117,7 +122,7 @@ class App extends Component {
     }
     
     const sentense = {
-      translationResult: "моя мати",
+      translationResult: "моя мати моя мати моя мати моя мати моя мати моя мати моя мати ",
       contextResult: [],
       synonyms: [],
       lookupExamples: null
@@ -131,8 +136,8 @@ class App extends Component {
     
     // .then((response) => {
       if(String(document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value).includes(" ")) {
-        ReactDOM.render(<Translation text = {signleWord.translationResult}/>, document.querySelector("#translationList"))
-        showComponents()
+        ReactDOM.render(<Translation text = {sentense.translationResult}/>, document.querySelector("#translationList"))
+        showSentence()
       }
       else {
         let translateList = []

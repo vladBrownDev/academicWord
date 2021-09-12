@@ -212,10 +212,13 @@ form .findWordInp {
   display: none;
 }
 .hidden {
-  opacity: 0;
+  display: none !important;
 }
 .shown {
-  opacity: 1;
+  display: flex !important;
+}
+.wide {
+  width: 80vw !important; 
 }
 
 @media screen and (max-width:920px) {
