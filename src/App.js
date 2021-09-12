@@ -46,6 +46,8 @@ class App extends Component {
     const showComponents = () => {
       document.querySelector("#secSection").className = "shown"
       document.querySelector("#examples").className = ""
+      document.querySelector("#synonyms").className = ""
+      document.querySelector("#translation").className = ""
     }
     const showSentence = () => {
       document.querySelector("#secSection").className = "shown"
