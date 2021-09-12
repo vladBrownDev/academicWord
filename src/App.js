@@ -28,13 +28,25 @@ class App extends Component {
     this.state = {
       fChosenLang : "en",
       secChosenLang :"ru",
-      flagImg : ukrflag
+      flagImg : ukrflag,
+      mainInputValue:"",
+      shownComponentsClass : "hidden"
     }
+  }
+  pushInputValue = (e) => {
+    this.setState(() => {
+      return ({mainInputValue:e.target.value})
+    })
+    console.log(this.state)
   }
   clearInp = () => {
     document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value = ""
   }
   getWords = () => {
+    const showComponents = () => {
+      document.querySelector("#secSection").className = "shown"
+      document.querySelector("#examples").className = "shown"
+    }
     axios.post("https://academic-words-api.azurewebsites.net/api/word/info", {
       from: this.state.fChosenLang,
       to: this.state.secChosenLang,
@@ -45,6 +57,7 @@ class App extends Component {
       if(String(document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value).includes(" ")) {
         console.log(response)
         ReactDOM.render(<Translation text = {response.data.translationResult}/>, document.querySelector("#translationList"))
+        showComponents()
       }
       else {
         let translateList = []
@@ -70,12 +83,15 @@ class App extends Component {
           synonymList.push (<span className="synonymListItem">{item}</span>)
         }) 
         ReactDOM.render(synonymList,document.querySelector("#synonymList"))
+        showComponents()
       }
       
     })
     .catch(function (error) {
       console.log(error);
+      alert("Серверная ошибка. Повторите попытку позже")
     });
+
   }
   firstDDSent = (e) => {
     document.addEventListener("DOMContentLoaded", () => {
@@ -163,6 +179,7 @@ class App extends Component {
                 id="outlined-basic"
                 placeholder="Введите текст"
                 variant="outlined"
+                onChange={this.pushInputValue}
                 InputProps={{
                   endAdornment: <InputAdornment position="end"><CloseIcon onClick={this.clearInp}></CloseIcon></InputAdornment>,
                 }} 
@@ -252,7 +269,7 @@ class App extends Component {
 
           </section>
   
-          <section id="secSection">
+          <section id="secSection" className="hidden">
                 <div id="translation">
                   <div id="translLabel">
                     Перевод
@@ -273,11 +290,11 @@ class App extends Component {
                   </div>
                 </div>
           </section>
-          <section id="examples">
+          <section id="examples" className="hidden">
             <div id="translLabel" className="secLabel">
               Перевод в контексте
             </div>
-            <div id="exampleList">
+            <div id="exampleList" >
                 <Example lText ="Тут появятся результаты" rText=""/>
             </div>
           </section>
