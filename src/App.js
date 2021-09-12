@@ -45,12 +45,13 @@ class App extends Component {
   getWords = () => {
     const showComponents = () => {
       document.querySelector("#secSection").className = "shown"
-      document.querySelector("#examples").className = "shown"
+      document.querySelector("#examples").className = ""
     }
     const showSentence = () => {
       document.querySelector("#secSection").className = "shown"
       document.querySelector("#synonyms").className = "hidden"
       document.querySelector("#translation").className = "shown wide"
+      document.querySelector("#examples").className = "hidden"
     }
     const signleWord = {
       translationResult: null,
