@@ -43,13 +43,11 @@ class App extends Component {
     document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value = ""
   }
   getWords = () => {
-<<<<<<< HEAD
     const showComponents = () => {
       document.querySelector("#secSection").className = "shown"
       document.querySelector("#examples").className = "shown"
     }
-=======
-    const singleWord = {
+    const signleWord = {
       translationResult: null,
       contextResult: [
         {
@@ -125,51 +123,49 @@ class App extends Component {
       lookupExamples: null
     }
 
->>>>>>> 01bc4e569f2e1613c0b1847e095b50478b975af5
-    axios.post("https://academic-words-api.azurewebsites.net/api/word/info", {
-      from: this.state.fChosenLang,
-      to: this.state.secChosenLang,
-      text: String(document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value)
-    })
+    // axios.post("https://academic-words-api.azurewebsites.net/api/word/info", {
+    //   from: this.state.fChosenLang,
+    //   to: this.state.secChosenLang,
+    //   text: String(document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value)
+    // })
     
-    .then((response) => {
+    // .then((response) => {
       if(String(document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value).includes(" ")) {
-        console.log(response)
-        ReactDOM.render(<Translation text = {response.data.translationResult}/>, document.querySelector("#translationList"))
+        ReactDOM.render(<Translation text = {signleWord.translationResult}/>, document.querySelector("#translationList"))
         showComponents()
       }
       else {
         let translateList = []
-        response.data.contextResult.forEach((item) => {
+        signleWord.contextResult.forEach((item) => {
           translateList.push(<Translation text={item.text}/> )
           
         })
         console.log(translateList)
         ReactDOM.render (translateList, document.querySelector("#translationList"))
-        const exLength = response.data.lookupExamples.fromLanguageExamples.length
+        const exLength = signleWord.lookupExamples?.fromLanguageExamples.length
 
-        let exampleList =[]
+        let exampleList = []
         for (let i = 0; i<exLength; i++) {
-          exampleList.push(<Example lText = {response.data.lookupExamples.fromLanguageExamples[i]}
-          rText = {response.data.lookupExamples.toLanguageExamples[i]}
-          translations={response.data.synonyms.map(e => e.toLowerCase())}
-          synonyms={response.data.contextResult.map(c => c.text.toLowerCase())}/>)
+          exampleList.push(<Example lText = {signleWord.lookupExamples?.fromLanguageExamples[i]}
+          rText = {signleWord.lookupExamples.toLanguageExamples[i]}
+          translations={signleWord.synonyms.map(e => e.toLowerCase())}
+          synonyms={signleWord.contextResult.map(c => c.text.toLowerCase())}/>)
         }
         ReactDOM.render (exampleList, document.querySelector("#exampleList"))
 
         let synonymList =[]
-        response.data.synonyms.forEach (item => {
+        signleWord.synonyms.forEach (item => {
           synonymList.push (<span className="synonymListItem">{item}</span>)
         }) 
         ReactDOM.render(synonymList,document.querySelector("#synonymList"))
         showComponents()
       }
       
-    })
-    .catch(function (error) {
-      console.log(error);
-      alert("Серверная ошибка. Повторите попытку позже")
-    });
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    //   alert("Серверная ошибка. Повторите попытку позже")
+    // });
 
   }
   firstDDSent = (e) => {
