@@ -3,6 +3,7 @@ import './App.css';
 import logo from "./images/logo.png"
 import switchBut from "./images/switch.png"
 import ukrflag from "./images/ukrflag.png"
+import enFlag from "./images/enFlag.png" 
 
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -20,17 +21,20 @@ import axios from "axios"
 import React ,{Component} from 'react';
 import ReactDOM from "react-dom"
 
-
+import Languages from './languages';
+const lang = Languages()
 
 class App extends Component {
+  
   constructor() {
     super()
     this.state = {
       fChosenLang : "en",
-      secChosenLang :"ru",
-      flagImg : ukrflag,
+      secChosenLang :"ua",
       mainInputValue:"",
-      shownComponentsClass : "hidden"
+      shownComponentsClass : "hidden",
+      flagImg : ukrflag,
+      currentLanguage : lang.ua
     }
   }
   pushInputValue = (e) => {
@@ -241,6 +245,14 @@ class App extends Component {
     })
     console.log(this.state)
   }
+  changeLocalization = () => {
+    if(this.state.currentLanguage === lang.ua) {
+      this.setState (() => {return ({currentLanguage : lang.en, flagImg : enFlag,})})
+    }
+    else {
+      this.setState (() => {return ({currentLanguage : lang.ua , flagImg : ukrflag,})})
+    }
+  }
   render() {
    
     return (
@@ -250,7 +262,7 @@ class App extends Component {
             <img src={logo} alt="" id="logo"/>
             <div id="companyName">Academic Words</div>
           </div>
-          <img src={this.state.flagImg} alt="flagImg"/>
+          <img id="flag" src={this.state.flagImg} onClick={this.changeLocalization} alt="flagImg"/>
         </header>
         <main>
           <section id="inputSection">
@@ -260,7 +272,7 @@ class App extends Component {
               <div id="desktopInput"> 
               <TextField className="findWordInp"
                 id="outlined-basic"
-                placeholder="Введите текст"
+                placeholder={this.state.currentLanguage.placeholder}
                 variant="outlined"
                 onChange={this.pushInputValue}
                 InputProps={{
@@ -277,8 +289,8 @@ class App extends Component {
                       onChange={this.firstDDSent}
                     >
                       
-                      <MenuItem value="en">Английский</MenuItem>
-                      <MenuItem value="ru">Русский</MenuItem>
+                      <MenuItem value="en">{this.state.currentLanguage.fDropDown}</MenuItem>
+                      <MenuItem value="ua">{this.state.currentLanguage.secDropDown}</MenuItem>
                       
                     </Select>
                     
@@ -297,8 +309,8 @@ class App extends Component {
                       
                     >
                       
-                      <MenuItem value="en">Английский</MenuItem>
-                      <MenuItem value="ru">Русский</MenuItem>
+                      <MenuItem value="en">{this.state.currentLanguage.fDropDown}</MenuItem>
+                      <MenuItem value="ua">{this.state.currentLanguage.secDropDown}</MenuItem>
                       
                     </Select>
                     
@@ -320,8 +332,8 @@ class App extends Component {
                       onChange={this.firstDDSent}
                     >
                       
-                      <MenuItem value="en">Английский</MenuItem>
-                      <MenuItem value="ru">Русский</MenuItem>
+                      <MenuItem value="en">{this.state.currentLanguage.fDropDown}</MenuItem>
+                      <MenuItem value="ua">{this.state.currentLanguage.secDropDown}</MenuItem>
                       
                     </Select>
                     
@@ -340,8 +352,8 @@ class App extends Component {
                       
                     >
                       
-                      <MenuItem value="en">Английский</MenuItem>
-                      <MenuItem value="ru">Русский</MenuItem>
+                      <MenuItem value="en">{this.state.currentLanguage.fDropDown}</MenuItem>
+                      <MenuItem value="ua">{this.state.currentLanguage.secDropDown}</MenuItem>
                       
                     </Select>
                     
@@ -355,7 +367,7 @@ class App extends Component {
           <section id="secSection" className="hidden">
                 <div id="translation">
                   <div id="translLabel">
-                    Перевод
+                  {this.state.currentLanguage.tranlsation}
                   </div>
                   <div id="translationList">
                     <Translation text="Sobaka"/>
@@ -366,7 +378,7 @@ class App extends Component {
 
                 <div id="synonyms">
                   <div id="translLabel">
-                      Синонимы
+                      {this.state.currentLanguage.synonims}
                   </div>
                   <div id="synonymList">
 
@@ -375,7 +387,7 @@ class App extends Component {
           </section>
           <section id="examples" className="hidden">
             <div id="translLabel" className="secLabel">
-              Перевод в контексте
+            {this.state.currentLanguage.contextTranslation}
             </div>
             <div id="exampleList" >
                 <Example lText ="Тут появятся результаты" rText=""/>
