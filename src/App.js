@@ -34,7 +34,9 @@ class App extends Component {
       mainInputValue:"",
       shownComponentsClass : "hidden",
       flagImg : ukrflag,
-      currentLanguage : lang.ua
+      currentLanguage : lang.ua,
+      error:false,
+      errorLabel:""
     }
   }
   pushInputValue = (e) => {
@@ -47,137 +49,151 @@ class App extends Component {
     document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value = ""
   }
   getWords = () => {
-    const showComponents = () => {
-      document.querySelector("#secSection").className = "shown"
-      document.querySelector("#examples").className = ""
-      document.querySelector("#synonyms").className = ""
-      document.querySelector("#translation").className = ""
+    if (this.state.fChosenLang === ""|| this.state.secChosenLang === "") {
+      const error2 = this.state.currentLanguage.err2
+      this.setState (() => {return({error:true, errorLabel:error2})})
+      return
     }
-    const showSentence = () => {
-      document.querySelector("#secSection").className = "shown"
-      document.querySelector("#synonyms").className = "hidden"
-      document.querySelector("#translation").className = "shown wide"
-      document.querySelector("#examples").className = "hidden"
+    if(this.state.mainInputValue === "") {
+      const error1 = this.state.currentLanguage.err1
+      this.setState (() => {return({error:true, errorLabel:error1})})
+      return
     }
-    const signleWord = {
-      translationResult: null,
-      contextResult: [
-        {
-          confidence: 0.2987,
-          text: "матері",
-          posTag: "NOUN"
-        },
-        {
-          confidence: 0.2315,
-          text: "матір'ю",
-          posTag: "NOUN"
-        },
-        {
-          confidence: 0.1985,
-          text: "мати",
-          posTag: "NOUN"
-        },
-        {
-          confidence: 0.0828,
-          text: "мама",
-          posTag: "NOUN"
-        }
-      ],
-      synonyms: [
-        "mom",
-        "mama",
-        "mommy",
-        "mother",
-        "mum"
-      ],
-      lookupExamples: {
-        fromLanguageExamples: [
-          "I hope your mother's condition improves.",
-          "Here is a picture of my mother's heart.",
-          "And he delivered him to his mother.",
-          "As the mother's body undergoes major changes ...",
-          "Are you going to save the mother earth in your own ...",
-          "The mother won't let it run in and take what ...",
-          "Help the mother to collect the essential things ...",
-          "... actually comes from your mother's side of the family.",
-          "... the body and the child and mother.",
-          "... circulatory system, hence supplying the mother much more power.",
-          "... factors that affect the body of his mother.",
-          "... can be fed in the mother's absence.",
-          "... entered the room of his mother.",
-          "... basic minerals from the organism of mother to the fetus.",
-          "... the child know it from his mother's belly."
+    
+    else {
+      const showComponents = () => {
+        document.querySelector("#secSection").className = "shown"
+        document.querySelector("#examples").className = ""
+        document.querySelector("#synonyms").className = ""
+        document.querySelector("#translation").className = ""
+      }
+      const showSentence = () => {
+        document.querySelector("#secSection").className = "shown"
+        document.querySelector("#synonyms").className = "hidden"
+        document.querySelector("#translation").className = "shown wide"
+        document.querySelector("#examples").className = "hidden"
+      }
+      const signleWord = {
+        translationResult: null,
+        contextResult: [
+          {
+            confidence: 0.2987,
+            text: "матері",
+            posTag: "NOUN"
+          },
+          {
+            confidence: 0.2315,
+            text: "матір'ю",
+            posTag: "NOUN"
+          },
+          {
+            confidence: 0.1985,
+            text: "мати",
+            posTag: "NOUN"
+          },
+          {
+            confidence: 0.0828,
+            text: "мама",
+            posTag: "NOUN"
+          }
         ],
-        toLanguageExamples: [
-          "Я сподіваюся, стан матері поліпшується.",
-          "Ось картина серце моєї матері.",
-          "І його Він віддав його матері.",
-          "Як тіло матері зазнає серйозних змін, ...",
-          "Чи збираєтеся ви зберегти матері-землі у ваших власних ...",
-          "Матері не дають йому працювати і прийняти те ...",
-          "допомогти матері зібрати необхідні речі, ...",
-          "... насправді відбувається з боку своєї матері в сім'ї.",
-          "... організм і дитину, і матері.",
-          "... кровообігу, а отже поставки матері набагато більше енергії.",
-          "... факторів, які впливають на організм його матері.",
-          "... може бути поданий у відсутність матері.",
-          "... увійшов до кімнати його матері.",
-          "... перехід основних мінералів з організму матері до плоду.",
-          "... Дитина повинна знати, від живота своєї матері."
-        ]
-      }
-    }
-    
-    const sentense = {
-      translationResult: "моя мати моя мати моя мати моя мати моя мати моя мати моя мати ",
-      contextResult: [],
-      synonyms: [],
-      lookupExamples: null
-    }
-
-    // axios.post("https://academic-words-api.azurewebsites.net/api/word/info", {
-    //   from: this.state.fChosenLang,
-    //   to: this.state.secChosenLang,
-    //   text: String(document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value)
-    // })
-    
-    // .then((response) => {
-      if(String(document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value).includes(" ")) {
-        ReactDOM.render(<Translation text = {sentense.translationResult}/>, document.querySelector("#translationList"))
-        showSentence()
-      }
-      else {
-        let translateList = []
-        signleWord.contextResult.forEach((item) => {
-          translateList.push(<Translation text={item.text}/> )
-          
-        })
-        console.log(translateList)
-        ReactDOM.render (translateList, document.querySelector("#translationList"))
-        const exLength = signleWord.lookupExamples?.fromLanguageExamples.length
-
-        let exampleList = []
-        for (let i = 0; i<exLength; i++) {
-          exampleList.push(<Example lText = {signleWord.lookupExamples?.fromLanguageExamples[i]}
-          rText = {signleWord.lookupExamples.toLanguageExamples[i]}
-          translations={signleWord.synonyms.map(e => e.toLowerCase())}
-          synonyms={signleWord.contextResult.map(c => c.text.toLowerCase())}/>)
+        synonyms: [
+          "mom",
+          "mama",
+          "mommy",
+          "mother",
+          "mum"
+        ],
+        lookupExamples: {
+          fromLanguageExamples: [
+            "I hope your mother's condition improves.",
+            "Here is a picture of my mother's heart.",
+            "And he delivered him to his mother.",
+            "As the mother's body undergoes major changes ...",
+            "Are you going to save the mother earth in your own ...",
+            "The mother won't let it run in and take what ...",
+            "Help the mother to collect the essential things ...",
+            "... actually comes from your mother's side of the family.",
+            "... the body and the child and mother.",
+            "... circulatory system, hence supplying the mother much more power.",
+            "... factors that affect the body of his mother.",
+            "... can be fed in the mother's absence.",
+            "... entered the room of his mother.",
+            "... basic minerals from the organism of mother to the fetus.",
+            "... the child know it from his mother's belly."
+          ],
+          toLanguageExamples: [
+            "Я сподіваюся, стан матері поліпшується.",
+            "Ось картина серце моєї матері.",
+            "І його Він віддав його матері.",
+            "Як тіло матері зазнає серйозних змін, ...",
+            "Чи збираєтеся ви зберегти матері-землі у ваших власних ...",
+            "Матері не дають йому працювати і прийняти те ...",
+            "допомогти матері зібрати необхідні речі, ...",
+            "... насправді відбувається з боку своєї матері в сім'ї.",
+            "... організм і дитину, і матері.",
+            "... кровообігу, а отже поставки матері набагато більше енергії.",
+            "... факторів, які впливають на організм його матері.",
+            "... може бути поданий у відсутність матері.",
+            "... увійшов до кімнати його матері.",
+            "... перехід основних мінералів з організму матері до плоду.",
+            "... Дитина повинна знати, від живота своєї матері."
+          ]
         }
-        ReactDOM.render (exampleList, document.querySelector("#exampleList"))
-
-        let synonymList =[]
-        signleWord.synonyms.forEach (item => {
-          synonymList.push (<span className="synonymListItem">{item}</span>)
-        }) 
-        ReactDOM.render(synonymList,document.querySelector("#synonymList"))
-        showComponents()
       }
       
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    //   alert("Серверная ошибка. Повторите попытку позже")
-    // });
+      const sentense = {
+        translationResult: "моя мати моя мати моя мати моя мати моя мати моя мати моя мати ",
+        contextResult: [],
+        synonyms: [],
+        lookupExamples: null
+      }
+  
+      // axios.post("https://academic-words-api.azurewebsites.net/api/word/info", {
+      //   from: this.state.fChosenLang,
+      //   to: this.state.secChosenLang,
+      //   text: String(document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value)
+      // })
+      
+      // .then((response) => {
+        if(String(document.querySelector(".MuiOutlinedInput-inputAdornedEnd").value).includes(" ")) {
+          ReactDOM.render(<Translation text = {sentense.translationResult}/>, document.querySelector("#translationList"))
+          showSentence()
+        }
+        else {
+          let translateList = []
+          signleWord.contextResult.forEach((item) => {
+            translateList.push(<Translation text={item.text}/> )
+            
+          })
+          console.log(translateList)
+          ReactDOM.render (translateList, document.querySelector("#translationList"))
+          const exLength = signleWord.lookupExamples?.fromLanguageExamples.length
+  
+          let exampleList = []
+          for (let i = 0; i<exLength; i++) {
+            exampleList.push(<Example lText = {signleWord.lookupExamples?.fromLanguageExamples[i]}
+            rText = {signleWord.lookupExamples.toLanguageExamples[i]}
+            translations={signleWord.synonyms.map(e => e.toLowerCase())}
+            synonyms={signleWord.contextResult.map(c => c.text.toLowerCase())}/>)
+          }
+          ReactDOM.render (exampleList, document.querySelector("#exampleList"))
+  
+          let synonymList =[]
+          signleWord.synonyms.forEach (item => {
+            synonymList.push (<span className="synonymListItem">{item}</span>)
+          }) 
+          ReactDOM.render(synonymList,document.querySelector("#synonymList"))
+          showComponents()
+        }
+        
+      // })
+      // .catch(function (error) {
+      //   console.log(error);
+      //   alert("Серверная ошибка. Повторите попытку позже")
+      // });
+    }
+    
 
   }
   firstDDSent = (e) => {
@@ -271,9 +287,11 @@ class App extends Component {
             <form>
               <div id="desktopInput"> 
               <TextField className="findWordInp"
-                id="outlined-basic"
+                error={this.state.error}
+                id="outlined-error"
                 placeholder={this.state.currentLanguage.placeholder}
                 variant="outlined"
+                label={this.state.errorLabel}
                 onChange={this.pushInputValue}
                 InputProps={{
                   endAdornment: <InputAdornment position="end"><CloseIcon onClick={this.clearInp}></CloseIcon></InputAdornment>,

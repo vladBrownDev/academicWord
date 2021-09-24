@@ -8,7 +8,9 @@ export default function Languages () {
             tranlsation:"Translations",
             synonims :"Synonims",
             placeholder: "Enter your text",
-            contextTranslation :"Translation in context"
+            contextTranslation :"Translation in context",
+            err1:"You forgot to put words in here",
+            err2:"You did not choose the language"
         },
         ua : {
             fDropDown: "Англійська",
@@ -16,7 +18,9 @@ export default function Languages () {
             tranlsation:"Переклади",
             synonims :"Синоніми",
             placeholder: "Введіть текст",
-            contextTranslation :"Переклад в контексті"
+            contextTranslation :"Переклад в контексті",
+            err1:"Ви не написали слово",
+            err2:"Ви не обрали мову"
         }
     })
 }
